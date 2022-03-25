@@ -62,8 +62,10 @@ router.delete('/appointments', (req, res) => {
     "doctor_id": "3"
   }
 
+  ^^ To test the safety measure of "no more than 3 appointments in any given time slot," send the above data more than 3 times in a row.
+
   To test an invalid appointment time, send a POST request to the endpoint with the body: 
-    {
+  {
     "patient_first_name": "George",
     "patient_last_name": "Silver",
     "appointment_type": "Follow Up",
@@ -71,10 +73,6 @@ router.delete('/appointments', (req, res) => {
     "time": "12:55",
     "doctor_id": "3"
   }
-
-  The single bug in this application occurs on line 107, when a valid post request is submitted twice in a row. I could debug with more time, but for now I've located and documented the bug, which are the first two steps in figuring it out!
-
-  I hope I get the opportunity to code and debug with you in the future real world!
 
 */
 
@@ -119,7 +117,7 @@ router.post('/appointments', (req, res) => {
     doctor_id
   }
   // Add new, valid appointment to the existing appointment array (or write to the db, in a real-world scenario.)
-  APPOINTMENTS = { ...APPOINTMENTS, newAppointment }
+  APPOINTMENTS = [ ...APPOINTMENTS, newAppointment ]
 
   return res.send(`New appointment for ${patient_first_name} ${patient_last_name} on ${date} at ${time} successfully created.`)  
 })
